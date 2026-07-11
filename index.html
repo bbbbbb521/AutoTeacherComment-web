@@ -1,32 +1,20 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>教师评价助手 v2.2 - NUC Auto Teacher Comment</title>
 <style>
-  :root {
-    --primary: #1565C0;
-    --primary-light: #E3F2FD;
-    --success: #4CAF50;
-    --danger: #F44336;
-    --warning: #FF9800;
-    --bg: #f5f7fa;
-    --card: #ffffff;
-    --text: #333333;
-    --text-secondary: #666666;
-  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    background: #f5f7fa;
+    color: #333;
     line-height: 1.6;
     padding: 16px;
     min-height: 100vh;
   }
   .container { max-width: 600px; margin: 0 auto; }
-
   .header {
     text-align: center;
     padding: 24px 16px 16px;
@@ -34,31 +22,17 @@
     border-radius: 16px;
     color: white;
     margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
   }
   .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
   .header p { font-size: 13px; opacity: 0.9; }
   .header .version {
-    position: absolute;
-    top: 12px; right: 16px;
+    position: absolute; top: 12px; right: 16px;
     font-size: 11px; opacity: 0.7;
     background: rgba(255,255,255,0.15);
-    padding: 2px 10px;
-    border-radius: 10px;
+    padding: 2px 10px; border-radius: 10px;
   }
-  .header .badge {
-    display: inline-block;
-    background: #FFD54F;
-    color: #333;
-    font-size: 11px;
-    padding: 1px 8px;
-    border-radius: 8px;
-    margin-top: 4px;
-  }
-
   .card {
-    background: var(--card);
+    background: white;
     border-radius: 14px;
     padding: 20px;
     margin-bottom: 16px;
@@ -67,71 +41,27 @@
   .card-title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--text);
     margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 8px;
   }
-
-  .score-group {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .score-input {
-    width: 100px;
-    padding: 10px 14px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-size: 20px;
-    font-weight: 700;
+  .install-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
     text-align: center;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .score-input:focus { border-color: var(--primary); }
-  .score-label { font-size: 14px; color: var(--text-secondary); }
-
-  .preset-btns {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .preset-btn {
-    padding: 8px 18px;
-    border: none;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    background: var(--primary-light);
-    color: var(--primary);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .preset-btn:active { transform: scale(0.95); }
-
-  .confirm-btn {
-    padding: 10px 24px;
-    border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    background: var(--primary);
+    text-decoration: none;
+    background: #1565C0;
     color: white;
-    cursor: pointer;
-    transition: all 0.2s;
+    margin-bottom: 12px;
   }
-  .confirm-btn:active { transform: scale(0.95); }
-
-  .score-status {
-    font-size: 13px;
-    margin-top: 8px;
-    color: var(--success);
-    min-height: 20px;
-  }
-
+  .install-btn:active { opacity: 0.8; }
   .step {
     display: flex;
     gap: 14px;
@@ -142,8 +72,8 @@
   .step:last-child { border-bottom: none; }
   .step-num {
     width: 26px; height: 26px;
-    background: var(--primary-light);
-    color: var(--primary);
+    background: #E3F2FD;
+    color: #1565C0;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -154,343 +84,123 @@
   }
   .step-content { flex: 1; }
   .step-title { font-size: 14px; font-weight: 600; }
-  .step-desc { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-
-  .install-btn {
-    display: block;
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    text-decoration: none;
-    margin-bottom: 12px;
-  }
-  .install-btn.primary { background: var(--primary); color: white; }
-  .install-btn.primary:active { opacity: 0.8; }
-  .install-btn.success { background: var(--success); color: white; }
-  .install-btn.success:active { opacity: 0.8; }
-  .install-btn.secondary {
-    background: var(--card);
-    color: var(--text);
-    border: 2px solid #e0e0e0;
-  }
-
-  .bookmarklet {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #FFD54F;
-    color: #333;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin: 4px 0;
-  }
-  .bookmarklet:active { transform: scale(0.95); }
-
-  .changelog-item {
-    font-size: 13px;
-    padding: 6px 0;
-    border-bottom: 1px solid #f5f5f5;
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-  }
-  .changelog-item:last-child { border-bottom: none; }
-  .changelog-tag {
-    font-size: 10px;
-    padding: 1px 6px;
-    border-radius: 4px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .tag-new { background: #E8F5E9; color: #2E7D32; }
-  .tag-fix { background: #FFF3E0; color: #E65100; }
-  .tag-upd { background: #E3F2FD; color: #1565C0; }
-
+  .step-desc { font-size: 13px; color: #666; margin-top: 2px; }
   .footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 12px;
-    color: #999;
+    text-align: center; padding: 20px;
+    font-size: 12px; color: #999;
   }
-  .footer a { color: var(--primary); text-decoration: none; }
-  .footer .credit { margin-top: 8px; font-size: 11px; }
-  .footer .credit a { color: #666; text-decoration: none; }
-
+  .footer a { color: #1565C0; text-decoration: none; }
   .toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #333;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 10px;
-    font-size: 14px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    z-index: 100000;
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: #333; color: white; padding: 10px 24px;
+    border-radius: 10px; font-size: 14px; opacity: 0;
+    transition: opacity 0.3s; z-index: 100000;
     pointer-events: none;
   }
   .toast.show { opacity: 1; }
-
-  /* Toggle */
-  .toggle-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 0;
-  }
-  .toggle-label { font-size: 14px; }
-  .toggle-switch {
-    position: relative;
-    width: 48px; height: 26px;
-    background: #ccc;
-    border-radius: 13px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .toggle-switch.on { background: var(--success); }
-  .toggle-switch::after {
-    content: '';
-    position: absolute;
-    top: 3px; left: 3px;
-    width: 20px; height: 20px;
-    background: white;
-    border-radius: 50%;
-    transition: transform 0.2s;
-  }
-  .toggle-switch.on::after { transform: translateX(22px); }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1a1a2e;
-      --card: #16213e;
-      --text: #e0e0e0;
-      --text-secondary: #aaa;
-    }
+  .warn {
+    font-size: 12px; color: #F44336; margin-top: 8px;
+    padding: 8px 12px; background: #FFF3E0; border-radius: 8px;
   }
 </style>
 </head>
 <body>
-
 <div class="container">
 
-  <!-- Header -->
-  <div class="header">
-    <div class="version">v2.2</div>
-    <h1>🎓 教师评价助手</h1>
-    <p>中北大学教务系统 · 自动填写油猴脚本</p>
-    <div class="badge">✨ 新！直连API提交 + 多页面支持</div>
-  </div>
+<div class="header" style="position:relative;">
+  <span class="version">v2.2</span>
+  <h1>🎓 教师评价助手</h1>
+  <p>中北大学教务系统 · 自动填写油猴脚本</p>
+</div>
 
-  <!-- Score -->
-  <div class="card">
-    <div class="card-title">🎯 评分设置</div>
-    <div class="score-group">
-      <input type="number" class="score-input" id="scoreInput" value="100" min="1" max="100">
-      <span class="score-label">分</span>
-      <button class="confirm-btn" onclick="confirmScore()">确认</button>
-    </div>
-    <div class="preset-btns">
-      <button class="preset-btn" onclick="setScore(100)">100</button>
-      <button class="preset-btn" onclick="setScore(90)">90</button>
-      <button class="preset-btn" onclick="setScore(80)">80</button>
-      <button class="preset-btn" onclick="setScore(60)">60</button>
-    </div>
-    <div class="score-status" id="scoreStatus"></div>
-  </div>
+<!-- Install -->
+<div class="card">
+  <div class="card-title">📥 安装脚本</div>
+  <a class="install-btn" href="autofill.user.js" onclick="installScript()">🚀 一键安装 (v2.2)</a>
+  <p style="font-size:12px;color:#999;">需要先安装 <a href="https://www.tampermonkey.net/" target="_blank" style="color:#1565C0;">Tampermonkey</a> 浏览器扩展</p>
+</div>
 
-  <!-- One-Click Install -->
-  <div class="card">
-    <div class="card-title">📥 一键安装</div>
-    <a class="install-btn primary" id="installLink" href="autofill.user.js" onclick="installScript()">
-      🚀 安装油猴脚本 (v2.2)
-    </a>
-    <p style="font-size:12px;color:#999;">
-      需要先安装 <a href="https://www.tampermonkey.net/" target="_blank" style="color:var(--primary);">Tampermonkey</a> 浏览器扩展
-    </p>
-  </div>
-
-  <!-- Auto-Submit Toggle -->
-  <div class="card">
-    
-    <p style="font-size:12px;color:#999;margin-top:8px;">
-      开启后，脚本在填写完表单后自动点击"保存/提交"按钮。<br>
-      也可在 Tampermonkey 菜单中切换。
-    </p>
-    <p style="font-size:12px;color:var(--warning);margin-top:6px;">
-      💡 v2.2 新增直连API提交，绕过Vue事件绑定问题
-    </p>
-  </div>
-
-  <!-- Usage -->
-  <div class="card">
-    <div class="card-title">📖 使用说明</div>
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-content">
-        <div class="step-title">安装 Tampermonkey</div>
-        <div class="step-desc">Chrome/Edge 应用商店搜索 "Tampermonkey" 安装</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-content">
-        <div class="step-title">安装本脚本</div>
-        <div class="step-desc">点击上方"一键安装"按钮，Tampermonkey 会自动弹出安装提示</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-content">
-        <div class="step-title">登录教务系统</div>
-        <div class="step-desc">打开 <a href="https://zhjw.nuc.edu.cn" target="_blank" style="color:var(--primary)">zhjw.nuc.edu.cn</a>，进入评价页面</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-content">
-        <div class="step-title">自动填写 ✨</div>
-        <div class="step-desc">脚本会自动检测评价项、填写分数和单选。分数在Tampermonkey菜单选择，以浮动面板为准。需手动点击提交按钮</div>
-      </div>
+<!-- Usage -->
+<div class="card">
+  <div class="card-title">📖 使用说明</div>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <div class="step-title">安装 Tampermonkey</div>
+      <div class="step-desc">Chrome/Edge 应用商店搜索安装</div>
     </div>
   </div>
-
-  <!-- Menu -->
-  <div class="card">
-    <div class="card-title">📋 使用说明</div>
-    <p style="font-size:12px;color:#F44336;margin-top:8px;padding:8px 12px;background:#FFF3E0;border-radius:8px;">
-      ⚠️ 由于学校教务系统使用Vue.js框架，无法自动提交，<br>
-      填写完成后请<strong>手动点击"保存/提交"按钮</strong>
-    </p>
-    <div style="padding:12px;background:#f5f5f5;border-radius:10px;font-size:13px;">
-      <div>• <strong>🎯 设置评分</strong> — 修改评价分数 (1-100)</div>
-      <div>• <strong>🎯 选择分数</strong> — 菜单中直接选分(100/95/90/85/80/75/70/60)或自定义输入</div>
-      <div></div>
-      <div>
-      <div>
-    </div>
-    <p style="font-size:12px;color:#999;margin-top:8px;">
-      点击浏览器工具栏的 Tampermonkey 图标访问菜单
-    </p>
-  </div>
-
-  <!-- Changelog -->
-  <div class="card">
-    <div class="card-title">📜 更新日志</div>
-    <div class="changelog-item">
-      
-    </div>
-    <div class="changelog-item">
-      <span class="changelog-tag tag-new">新增</span>
-      <span>MutationObserver 监听 — 自动检测SPA页面切换，支持多教师评价</span>
-    </div>
-    <div class="changelog-item">
-      
-    </div>
-    <div class="changelog-item">
-      <span class="changelog-tag tag-upd">改进</span>
-      <span>浮动面板可点击，手动触发一次填写</span>
-    </div>
-    <div class="changelog-item">
-      <span class="changelog-tag tag-upd">改进</span>
-
-    </div>
-    <div class="changelog-item">
-      
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <div class="step-title">安装本脚本</div>
+      <div class="step-desc">点击上方"一键安装"按钮</div>
     </div>
   </div>
-
-  <!-- Bookmarklet -->
-  <div class="card">
-    <div class="card-title">🔖 书签小工具</div>
-    <p style="font-size:13px;color:#666;margin-bottom:8px;">
-      不想装扩展？把下面的按钮拖到书签栏，每次点一下执行一次填写：
-    </p>
-    <div style="text-align:center;">
-      <a class="bookmarklet" id="bookmarkletLink" onclick="showBookmarkletInfo()">
-        🚀 评价助手
-      </a>
-      <p style="font-size:11px;color:#999;margin-top:6px;">
-        将上方按钮拖到书签栏（手机长按复制链接）
-      </p>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <div class="step-title">登录教务系统</div>
+      <div class="step-desc">打开 <a href="https://zhjw.nuc.edu.cn" target="_blank" style="color:#1565C0;">zhjw.nuc.edu.cn</a>，进入评价页面</div>
     </div>
   </div>
-
-  <!-- Footer -->
-  <div class="footer">
-    <p>基于 <a href="https://gitee.com/yang-jingyu0722/nuc-teacher-comments" target="_blank">yang-jingyu0722/nuc-teacher-comments</a> 改进</p>
-    <div class="credit">
-      <a href="https://github.com/bbbbbb521/AutoTeacherComment-win" target="_blank">GitHub</a> ·
-      <a href="https://gitee.com/little-banyan/auto-teacher-comment-web" target="_blank">Gitee</a> ·
-      <a href="https://bbbbbb521.github.io/AutoTeacherComment-web/" target="_blank">在线页面</a>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <div class="step-title">自动填写 ✨</div>
+      <div class="step-desc">进入评价页面后脚本自动检测并填写表单，<strong>需手动点击"保存/提交"按钮</strong></div>
     </div>
   </div>
+  <div class="warn">⚠️ 由于学校教务系统使用Vue.js框架，无法自动提交，填写完成后请手动点击"保存/提交"按钮</div>
+</div>
+
+<!-- Score -->
+<div class="card">
+  <div class="card-title">🎯 评分设置</div>
+  <p style="font-size:13px;color:#666;margin-bottom:12px;">
+    分数在 Tampermonkey 菜单中直接选择或自定义输入，以页面右上角<strong>浮动面板</strong>的数字为准。
+  </p>
+  <div style="padding:12px;background:#f5f5f5;border-radius:10px;font-size:13px;">
+    <div>• 点击浏览器工具栏的 Tampermonkey 图标打开菜单</div>
+    <div>• 在菜单中选择分数：100 / 95 / 90 / 85 / 80 / 75 / 70 / 60</div>
+    <div>• 也可点击"自定义分数"输入 1-100 任意值</div>
+    <div>• 页面右上角蓝色浮动面板显示当前生效的分数</div>
+  </div>
+</div>
+
+<!-- Menu -->
+<div class="card">
+  <div class="card-title">📋 Tampermonkey 菜单</div>
+  <div style="padding:12px;background:#f5f5f5;border-radius:10px;font-size:13px;">
+    <div>• <strong>--- 选择分数 ---</strong> — 分隔线</div>
+    <div>• <strong>100分 / 95分 / ... / 60分</strong> — 直接选择预设分数</div>
+    <div>• <strong>自定义分数</strong> — 手动输入任意分数</div>
+    <div>• <strong>立即填写+提交</strong> — 手动触发一次填写并点击提交</div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <p>基于 <a href="https://gitee.com/yang-jingyu0722/nuc-teacher-comments" target="_blank">yang-jingyu0722/nuc-teacher-comments</a> 改进</p>
+  <p style="margin-top:4px;">
+    <a href="https://github.com/bbbbbb521/AutoTeacherComment-web" target="_blank">GitHub</a>
+  </p>
+</div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-let currentScore = 100;
-let autoSubmitEnabled = localStorage.getItem('nuc_autosubmit') !== 'false';
-
-function setScore(val) {
-  currentScore = val;
-  document.getElementById('scoreInput').value = val;
-}
-function confirmScore() {
-  const val = parseInt(document.getElementById('scoreInput').value);
-  if (val >= 1 && val <= 100) {
-    currentScore = val;
-    document.getElementById('scoreStatus').textContent = '✓ 已设置 ' + val + ' 分';
-    document.getElementById('scoreStatus').style.color = '#4CAF50';
-    localStorage.setItem('nuc_eval_score', val);
-    showToast('已设置为 ' + val + ' 分');
-  } else {
-    document.getElementById('scoreStatus').textContent = '请输入 1-100';
-    document.getElementById('scoreStatus').style.color = '#F44336';
-  }
-}
-
-function toggleAutoSubmit() {
-  autoSubmitEnabled = !autoSubmitEnabled;
-  const t = document.getElementById('autoToggle');
-  t.className = 'toggle-switch' + (autoSubmitEnabled ? ' on' : '');
-  localStorage.setItem('nuc_autosubmit', autoSubmitEnabled);
-  showToast('自动提交: ' + (autoSubmitEnabled ? '已开启' : '已关闭'));
-}
-
-const saved = localStorage.getItem('nuc_eval_score');
-if (saved) { document.getElementById('scoreInput').value = saved; currentScore = parseInt(saved); }
-if (!autoSubmitEnabled) { document.getElementById('autoToggle').className = 'toggle-switch'; }
-
 function installScript() {
   window.location.href = 'autofill.user.js';
-  showToast('正在安装脚本... Tampermonkey 会弹出提示');
+  showToast('正在安装... Tampermonkey 会弹出提示');
 }
-
-function showBookmarkletInfo() {
-  const js = 'javascript:(function(){const s=parseInt(prompt("评价分数?","'+currentScore+'"))||100;const o=s>80?"完全同意":s>60?"同意":s>40?"一般":s>20?"不太同意":"完全不同意";function f(){const g={};document.querySelectorAll("label").forEach(l=>{const i=l.querySelector("input[type=radio]");if(i&&i.name){if(!g[i.name])g[i.name]={items:[]};const t=(l.textContent||"").trim();g[i.name].items.push({text:t,input:i,label:l})}});let c=0;for(const k in g){const r=g[k];let sk=false;r.items.forEach(it=>{if(it.input&&it.input.checked)sk=true});if(sk)continue;for(const it of r.items){if(it.text.includes(o)){it.input.click();it.input.checked=true;it.input.dispatchEvent(new Event("change",{bubbles:true}));c++;break}}}document.querySelectorAll("input[type=text],input[type=number]").forEach(i=>{if(!i.readOnly&&!i.disabled){const p=(i.placeholder||"").toLowerCase();if(p.includes("打分")||p.includes("评分")){i.value=String(s);i.dispatchEvent(new Event("input",{bubbles:true}));c++}}});return c}const n=f();console.log("[Eval] 已填写 "+n+" 项");if(n>0&&'+autoSubmitEnabled+'){setTimeout(()=>{document.querySelectorAll("button").forEach(b=>{const t=(b.textContent||"").trim();if(t.includes("提交")||t.includes("保存")){b.click();b.dispatchEvent(new MouseEvent("click",{bubbles:true}));console.log("[Eval] 已点击:"+t)}})},1500)}})();';
-  prompt('复制下面的代码，新建一个书签，网址栏粘贴：', js);
-}
-
 function showToast(msg) {
-  const t = document.getElementById('toast');
+  var t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+  setTimeout(function() { t.classList.remove('show'); }, 2000);
 }
 </script>
-
 </body>
 </html>
