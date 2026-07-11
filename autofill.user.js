@@ -24,11 +24,11 @@
 
     // === 菜单：直接选分 ===
     function setupMenu() {
-        GM_registerMenuCommand('当前分数: ' + SCORE + '分', function() {}, 's');
+        GM_registerMenuCommand('--- 选择分数 ---', function() {}, 's');
 
         var presets = [100, 95, 90, 85, 80, 75, 70, 60];
         presets.forEach(function(n) {
-            var label = (n === SCORE ? '✓ ' : '  ') + n + '分';
+            var label = '  ' + n + '分';
             GM_registerMenuCommand(label, function() {
                 SCORE = n;
                 GM_setValue('nuc_score', '' + n);
