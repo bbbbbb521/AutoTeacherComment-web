@@ -1,4 +1,4 @@
-﻿# AutoTeacherComment-web
+# AutoTeacherComment-web
 
 📱 **在线页面：https://bbbbbb521.github.io/AutoTeacherComment-web/**
 
@@ -26,6 +26,11 @@
 3. 进入教务系统评价页面自动填写
 
 > ⚠️ 由于学校教务系统使用Vue.js框架，禁止外部JS注入事件，无法实现自动提交，填写完成后请手动点击"保存/提交"按钮
+
+## 操作说明
+
+- **键盘快捷键**：在评价页面按数字 `1` 选择评分分数
+- **右上角菜单**：点击 Tampermonkey 图标 → 菜单中选择"设置评分"调整分数
 
 ## 开发环境
 
