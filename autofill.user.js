@@ -39,6 +39,11 @@
             });
         });
 
+        GM_registerMenuCommand('自定义分数...', function() {
+            var s = prompt('输入分数 (1-100)', SCORE);
+            if (s) { var n = parseInt(s); if (n >= 1 && n <= 100) { SCORE = n; GM_setValue('nuc_score', '' + n); GM_notification({ text: '评分已设为 ' + n + ' 分', timeout: 1500 }); var ps = document.getElementById('nuc-score'); if (ps) ps.textContent = n; } }
+        }, 'c');
+
         GM_registerMenuCommand('---', function() {}, 'sep');
 
         GM_registerMenuCommand('立即填写+提交', function() {
