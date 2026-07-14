@@ -1,4 +1,4 @@
-# AutoTeacherComment-web
+﻿# AutoTeacherComment-web
 
 📱 **在线页面：https://bbbbbb521.github.io/AutoTeacherComment-web/**
 
@@ -21,7 +21,7 @@
 
 ## 使用方式
 
-1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 扩展
+1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 扩展，然后点击浏览器扩展 → Tampermonkey → 详细信息 → 开启"允许用户脚本"
 2. 打开在线页面一键安装
 3. 进入教务系统评价页面自动填写
 
